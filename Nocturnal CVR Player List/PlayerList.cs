@@ -17,7 +17,10 @@ namespace Nocturnal
             this.transform.localPosition = Vector3.zero;
             this.transform.localEulerAngles = Vector3.zero;
             this.transform.localScale = Vector3.one;
+            this.gameObject.AddComponent<Canvas>().renderMode = RenderMode.WorldSpace;
+            this.gameObject.GetComponent<Canvas>().worldCamera = Camera.main;
             _imgComp = this.gameObject.AddComponent<Image>();
+            ChangeSpriteFromString(_imgComp, Config.Instance.Js.Background);
          }
 
         void UpdatePlayerList()
