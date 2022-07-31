@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BepInEx;
-using HarmonyLib;
+using MelonLoader;
+using Harmony;
 using ABI_RC.Core.InteractionSystem;
 using UnityEngine;
 using System.Collections;
@@ -15,16 +15,15 @@ using ABI_RC.Core;
 
 namespace Nocturnal
 {
-    [BepInPlugin("org.bepinex.plugins.Nocturnal.PlayerList", "Nocturnal CVR Player List", "1.0.0.0")]
-    public class Main : BaseUnityPlugin
+    public class Main : MelonMod
     {
-        private Harmony _instance = new Harmony(Guid.NewGuid().ToString());
+        private HarmonyInstance _instance = new HarmonyInstance(Guid.NewGuid().ToString());
 
         public static Dictionary<string,PlayerAvatarMovementData> DictionaryPlayerData = new Dictionary<string,PlayerAvatarMovementData>();
-        private void Awake()
+        public override void OnApplicationStart()
         {
             Patch();
-            StartCoroutine(WaitForMenu());
+            MelonCoroutines.Start(WaitForMenu());
             new Config();
         }
 
@@ -42,9 +41,9 @@ namespace Nocturnal
 
         private void Patch()
         {
-            _instance.Patch(typeof(CVR_MenuManager).GetMethod(nameof(CVR_MenuManager.ToggleQuickMenu)), null, new HarmonyMethod(typeof(Main).GetMethod(nameof(ToggleMenu), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)));
-            _instance.Patch(typeof(CVR_MenuManager).GetMethod(nameof(CVR_MenuManager.SetScale)), null, new HarmonyMethod(typeof(Main).GetMethod(nameof(SetScale), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)));
-            _instance.Patch(typeof(PuppetMaster).GetMethod(nameof(PuppetMaster.CycleData)), null, new HarmonyMethod(typeof(Main).GetMethod(nameof(PuppetMasterPostFix), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)));
+            _instance.Patch(typeof(CVR_MenuManager).GetMethod(nameof(CVR_MenuManager.ToggleQuickMenu)), null, typeof(Main).GetMethod(nameof(ToggleMenu), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static).ToNewHarmonyMethod());
+            _instance.Patch(typeof(CVR_MenuManager).GetMethod(nameof(CVR_MenuManager.SetScale)), null, typeof(Main).GetMethod(nameof(SetScale), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static).ToNewHarmonyMethod());
+            _instance.Patch(typeof(PuppetMaster).GetMethod(nameof(PuppetMaster.CycleData)), null, typeof(Main).GetMethod(nameof(PuppetMasterPostFix), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static).ToNewHarmonyMethod());
         }
 
         private static void PuppetMasterPostFix(PuppetMaster __instance)
