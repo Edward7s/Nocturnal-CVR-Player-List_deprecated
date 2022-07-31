@@ -14,7 +14,6 @@ namespace Nocturnal
     {
         public int[] Color { get; set; }
         public string Background { get; set; }
-        public string PlayerList { get; set; }
 
     }
     internal class Config
@@ -36,12 +35,10 @@ namespace Nocturnal
                     File.WriteAllText(Directory.GetCurrentDirectory() + "//Nocturnal//PlayerListConfig.Json", JsonConvert.SerializeObject(new Json()
                     {
                         Color = new int[] { 145, 255, 158, 200 },
-                      //  Background = Convert.ToBase64String(wc.DownloadData("https://raw.githubusercontent.com/Edward7s/Nocturnal-CVR-Player-List/master/Nocturnal%20CVR%20Player%20List/Images/BackgroundMenu.png?token=GHSAT0AAAAAABR34D7BZIJJDORMV7YNSNTMYXEMDOQ")),
-                      //  PlayerList = Convert.ToBase64String(wc.DownloadData("https://raw.githubusercontent.com/Edward7s/Nocturnal-CVR-Player-List/master/Nocturnal%20CVR%20Player%20List/Images/PlayerListMask.png?token=GHSAT0AAAAAABR34D7BUI2B3YZJ7TVL2AIIYXEMFHQ"))
-                        Background = Convert.ToBase64String(wc.DownloadData("https://nocturnal-client.xyz/Resources/BackgroundMenu.png")),
-                        PlayerList = Convert.ToBase64String(wc.DownloadData("https://nocturnal-client.xyz/Resources/PlayerListMask.png"))
+                        Background = Convert.ToBase64String(wc.DownloadData("https://raw.githubusercontent.com/Edward7s/Nocturnal-CVR-Player-List/master/Nocturnal%20CVR%20Player%20List/Images/mask.jpg.png?token=GHSAT0AAAAAABR34D7BGOY4LIKQNVV7HPRMYXG34UQ")),
                     }));
-                    wc.Dispose();
+
+                 wc.Dispose();
                 }
             }
             Js = JsonConvert.DeserializeObject<Json>(File.ReadAllText(Directory.GetCurrentDirectory() + "//Nocturnal//PlayerListConfig.Json"));
