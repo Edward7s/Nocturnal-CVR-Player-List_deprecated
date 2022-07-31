@@ -12,14 +12,11 @@ namespace Nocturnal
 {
     public class Json
     {
-        public int[] Color { get; set; }
         public string Background { get; set; }
-
     }
     internal class Config
     {
         public Json Js { get; set; }
-        public Color DefaultColor { get; set; }
         public static Config Instance { get; set; }
       
         public Config()
@@ -34,7 +31,6 @@ namespace Nocturnal
                 {
                     File.WriteAllText(Directory.GetCurrentDirectory() + "//Nocturnal//PlayerListConfig.Json", JsonConvert.SerializeObject(new Json()
                     {
-                        Color = new int[] { 145, 255, 158, 200 },
                         Background = Convert.ToBase64String(wc.DownloadData("https://raw.githubusercontent.com/Edward7s/Nocturnal-CVR-Player-List/master/Nocturnal%20CVR%20Player%20List/Images/mask.jpg.png?token=GHSAT0AAAAAABR34D7BGOY4LIKQNVV7HPRMYXG34UQ")),
                     }));
 
@@ -42,7 +38,6 @@ namespace Nocturnal
                 }
             }
             Js = JsonConvert.DeserializeObject<Json>(File.ReadAllText(Directory.GetCurrentDirectory() + "//Nocturnal//PlayerListConfig.Json"));
-            DefaultColor = new Color32(byte.Parse(Js.Color[0].ToString()), byte.Parse(Js.Color[1].ToString()), byte.Parse(Js.Color[2].ToString()), byte.Parse(Js.Color[3].ToString()));
         }
     }
 }
