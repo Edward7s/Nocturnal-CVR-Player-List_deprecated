@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Nocturnal</RootNamespace>
-    <AssemblyName>Nocturnal CVR Player List</AssemblyName>
+    <AssemblyName>Nocturnal CVR Player List %28ML%29</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
