@@ -27,7 +27,7 @@ namespace Nocturnal
             this.gameObject.GetComponent<Canvas>().worldCamera = Camera.main;
             _imgComp = this.gameObject.AddComponent<Image>();
             ChangeSpriteFromString(_imgComp, Config.Instance.Js.Background).color = new Color(0, 0, 0, 0.7f);
-            this.transform.localPosition = new Vector3(-0.6f, 0, 0);
+            this.transform.localPosition = Config.Instance.Js.LeftSide ? new Vector3(-0.6f, 0, 0) : new Vector3(0.6f, 0, 0);
             this.gameObject.AddComponent<Mask>();
             _textGameObject = GameObject.Instantiate(Resources.FindObjectsOfTypeAll<TMPro.TextMeshProUGUI>().FirstOrDefault(x => x.name == "DisplayName").gameObject, this.transform);
             _textComp = _textGameObject.GetComponent<TMPro.TextMeshProUGUI>();
@@ -55,10 +55,11 @@ namespace Nocturnal
         private string _vr { get; set; } = "";
         private string _crouch { get; set; } = "";
         private string _prone { get; set; } = "";
+        private string _playerName { get; set; } = "";
+
         void UpdatePlayerList()
         {
                 _players = CVRPlayerManager.Instance.NetworkPlayers;
-
                 switch (true)
                 {
                     case true when _players.Count > 30:
@@ -78,19 +79,23 @@ namespace Nocturnal
                 {
                     case "Legend":
                         _playerRank = "<color=#fbff00>Legend</color>";
+                        _playerName = $"<color=#fbff00>{_players[i].Username}</color>";
                         break;
                     case "Community Guide":
-                        _playerRank = "<color=#bb00ff>Community Guide</color>";
+                        _playerRank = "<color=#bb00ff>Guide</color>";
+                        _playerName = $"<color=#bb00ff>{_players[i].Username}</color>";
                         break;
                     case "Moderator":
-                        _playerRank = "<color=#36000f>Moderator</color>";
+                        _playerRank = "<color=#36000f>Mod</color>";
+                        _playerName = $"<color=#36000f>{_players[i].Username}</color>";
                         break;
                     case "Developer":
-                        _playerRank = "<color=#ff0033>Developer</color>";
+                        _playerRank = "<color=#ff0033>Dev</color>";
+                        _playerName = $"<color=#ff0033>{_players[i].Username}</color>";
                         break;
                     default:
                         _playerRank = "<color=#9ea1ff>User</color>";
-
+                        _playerName = $"<color=#9ea1ff>{_players[i].Username}</color>";
                         break;
                 }
                 switch (Main.DictionaryPlayerData[_players[i].Uuid].DeviceType.ToString())
@@ -109,8 +114,8 @@ namespace Nocturnal
                 _flyng = Main.DictionaryPlayerData[_players[i].Uuid].AnimatorFlying ? " <color=#549bff>Flying</color>" : "";
                 _crouch = Main.DictionaryPlayerData[_players[i].Uuid].AnimatorCrouching ? " <color=#ff8c00>C</color>" : "";
                 _prone = Main.DictionaryPlayerData[_players[i].Uuid].AnimatorProne ? " <color=#874a00>P</color>" : "";
-                _friend = ABI_RC.Core.Networking.IO.Social.Friends.List.FirstOrDefault(x => x.UserId == _players[i].Uuid) != null ? " <color=#fcff5c>Friend</color>" : "";
-                _textComp.text += $"<color=#6e626c>{i}</color> <color=#c4c4c4>{_players[i].Username}</color>{_friend} {_vr} {_playerRank}{_talking}{_flyng}{_crouch}{_prone}\n";
+                _friend = ABI_RC.Core.InteractionSystem.ViewManager.Instance.FriendList.FirstOrDefault(x => x.UserId == _players[i].Uuid) != null ? " <color=#fcff5c>Friend</color>" : "";
+                _textComp.text += $"<color=#6e626c>{i}</color> {_playerName}{_friend} {_vr} {_playerRank}{_talking}{_flyng}{_crouch}{_prone}\n";
             }
         }
         private static Texture2D _Texture2d { get; set; }
