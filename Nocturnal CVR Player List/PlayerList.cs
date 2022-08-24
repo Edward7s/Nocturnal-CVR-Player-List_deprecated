@@ -25,6 +25,7 @@ namespace Nocturnal
             this.transform.localScale = Vector3.one;
             this.gameObject.AddComponent<Canvas>().renderMode = RenderMode.WorldSpace;
             this.gameObject.GetComponent<Canvas>().worldCamera = Camera.main;
+            this.layer = LayerMask.NameToLayer("UI");
             _imgComp = this.gameObject.AddComponent<Image>();
             ChangeSpriteFromString(_imgComp, Config.Instance.Js.Background).color = new Color(0, 0, 0, 0.7f);
             this.transform.localPosition = Config.Instance.Js.LeftSide ? new Vector3(-0.6f, 0, 0) : new Vector3(0.6f, 0, 0);
